@@ -12,7 +12,7 @@
  * coupon-code
  * coupon-discount
  * grand-total
- * 
+ * phone-number
  * 
  * 
  */
@@ -44,7 +44,7 @@ document.getElementById('bus-seats').addEventListener('click', function(event) {
         if (event.target.classList.contains('seat')) {
             count += 1;
             console.log('Count-',count,', Clicked element ID:', event.target.id);
-            target.classList.add('bg-green-600', 'text-white', 'cursor-not-allowed');
+            target.classList.add('bg-p-color', 'text-white', 'cursor-not-allowed');
             target.classList.remove('seat');
 
             // remaining seat... 
@@ -145,3 +145,55 @@ function updateGrandTotal(discount = 0) {
     let grandTotal = totalPrice - (totalPrice * discount / 100);
     grandTotalElement.textContent = grandTotal.toFixed(2); // Show grand total with 2 decimal places
 }
+
+// phone-number
+document.getElementById('phone-number').addEventListener('keyup', function(event) {
+    const phoneInput = event.target;
+    const errorMessage = document.getElementById('error-message');
+    const phoneValue = phoneInput.value;
+    
+    if (isNaN(phoneValue)) {
+        errorMessage.textContent = 'Please enter only numbers.';
+        phoneInput.classList.add('border-red-500');
+        phoneInput.classList.remove('border-gray-300');
+    } else if (phoneValue.length < 11 || phoneValue.length > 11) {
+        errorMessage.textContent = 'Phone number length must be 11.';
+        phoneInput.classList.add('border-red-500');
+        phoneInput.classList.remove('border-gray-300');
+    } else {
+        errorMessage.textContent = '';
+        phoneInput.classList.add('border-gray-300');
+        phoneInput.classList.remove('border-red-500');
+    }
+
+    const nextButton = document.getElementById('next-btn');
+    if(phoneValue.length==11 && count>=1){
+        nextButton.disabled = false;
+        nextButton.classList.remove('bg-green-500');
+        nextButton.classList.add('bg-p-color','hover:bg-green-600');
+    }else{
+        nextButton.disabled = true;
+        nextButton.classList.remove('bg-p-color', 'hover:bg-green-600');
+        nextButton.classList.add('bg-green-500');
+    }
+});
+
+// next-btn
+// Get the link element
+const openModalLink = document.getElementById('open-modal-link');
+// Get the button element
+const triggerClickButton = document.getElementById('next-btn');
+
+// Add event listener to the button
+triggerClickButton.addEventListener('click', function() {
+    // Programmatically click the link
+    openModalLink.click();
+});
+
+
+
+// Attach an event listener to the "Continue" button
+document.getElementById('continue-button').addEventListener('click', function(event) {
+    // event.preventDefault(); // Prevent the default link behavior
+    // location.reload(); // Refresh the page
+});
